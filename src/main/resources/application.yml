@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mydb
+    username: admin
+    password: secret
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10  # Adjust the pool size as needed
+  jpa:
+    hibernate:
+      ddl-auto: update  # Can be 'none', 'validate', 'update', or 'create' based on your needs
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true  # Set to 'false' to hide SQL in logs (optional)
+    format-sql: true  # Optional: formats the SQL in logs (for readability)
+server:
+  port: 8081
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    enabled: true
