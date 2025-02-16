@@ -16,6 +16,12 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true  # Set to 'false' to hide SQL in logs (optional)
     format-sql: true  # Optional: formats the SQL in logs (for readability)
+  spring:
+    rabbitmq:
+      host: localhost
+      port: 5672
+      username: guest
+      password: guest
 server:
   port: 8081
 springdoc:
@@ -25,3 +31,6 @@ springdoc:
     path: /swagger-ui.html
     operationsSorter: method
     enabled: true
+
+ai-service:
+  url: http://54.85.62.171:8000
