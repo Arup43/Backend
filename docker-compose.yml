@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  backend:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database-1.c3e68syogmez.us-east-1.rds.amazonaws.com:5432/mydb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Hello_World_43
+      - SPRING_RABBITMQ_HOST=b-22d8426a-5c46-4f06-a0be-fbe75bfb34e8.mq.us-east-1.amazonaws.com
+      - SPRING_RABBITMQ_PORT=5671
+      - SPRING_RABBITMQ_USERNAME=admin
+      - SPRING_RABBITMQ_PASSWORD=Hello_World_43
+    restart: unless-stopped

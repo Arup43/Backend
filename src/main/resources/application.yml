@@ -2,9 +2,9 @@ spring:
   application:
     name: backend
   datasource:
-    url: jdbc:postgresql://localhost:5432/mydb
-    username: admin
-    password: secret
+    url: jdbc:postgresql://database-1.c3e68syogmez.us-east-1.rds.amazonaws.com:5432/mydb
+    username: postgres
+    password: Hello_World_43
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10  # Adjust the pool size as needed
@@ -16,12 +16,15 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true  # Set to 'false' to hide SQL in logs (optional)
     format-sql: true  # Optional: formats the SQL in logs (for readability)
-  spring:
-    rabbitmq:
-      host: localhost
-      port: 5672
-      username: guest
-      password: guest
+  rabbitmq:
+    host: b-22d8426a-5c46-4f06-a0be-fbe75bfb34e8.mq.us-east-1.amazonaws.com
+    port: 5671
+    username: admin
+    password: Hello_World_43
+    ssl:
+      enabled: true
+      algorithm: TLSv1.2
+    virtual-host: /
 server:
   port: 8081
 springdoc:
