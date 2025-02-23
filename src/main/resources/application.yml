@@ -37,3 +37,6 @@ springdoc:
 
 ai-service:
   url: http://54.85.62.171:8000
+
+backend-service:
+  url: http://34.238.246.44

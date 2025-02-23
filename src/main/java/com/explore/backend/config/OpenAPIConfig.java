@@ -17,10 +17,13 @@ public class OpenAPIConfig {
     @Value("${server.port}")
     private String serverPort;
 
+    @Value("${backend-service.url}")
+    private String serverUrl;
+
     @Bean
     public OpenAPI myOpenAPI() {
         Server devServer = new Server()
-            .url("http://localhost:" + serverPort)
+            .url(serverUrl + ":" + serverPort)
             .description("Development server");
 
         Contact contact = new Contact()
