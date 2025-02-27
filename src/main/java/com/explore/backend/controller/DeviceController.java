@@ -8,6 +8,7 @@ import com.explore.backend.dto.patch.DeviceLikePatchDTO;
 import com.explore.backend.dto.patch.DeviceCommentPatchDTO;
 import com.explore.backend.dto.patch.DeviceSharePatchDTO;
 import com.explore.backend.dto.patch.DeviceStreamPatchDTO;
+import com.explore.backend.dto.PaginatedDeviceResponse;
 import com.explore.backend.service.DeviceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,18 +31,20 @@ public class DeviceController {
     @Autowired
     private DeviceService deviceService;
 
+    @GetMapping
     @Operation(
-        summary = "Get all devices",
-        description = "Retrieves a list of all devices in the system"
+        summary = "Get all devices with pagination",
+        description = "Retrieves a paginated list of devices in the system (10 devices per page)"
     )
     @ApiResponse(
         responseCode = "200",
-        description = "Successfully retrieved all devices",
-        content = @Content(mediaType = "application/json", schema = @Schema(implementation = DeviceResponseDTO.class))
+        description = "Successfully retrieved devices",
+        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PaginatedDeviceResponse.class))
     )
-    @GetMapping
-    public List<DeviceResponseDTO> getAllDevices() {
-        return deviceService.getAllDevices();
+    public PaginatedDeviceResponse getAllDevices(
+            @Parameter(description = "Page number (starts from 0)")
+            @RequestParam(defaultValue = "0") int page) {
+        return deviceService.getAllDevices(page);
     }
 
     @Operation(

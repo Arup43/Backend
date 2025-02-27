@@ -2,10 +2,15 @@ package com.explore.backend.service;
 
 import com.explore.backend.dto.DeviceRequestDTO;
 import com.explore.backend.dto.DeviceResponseDTO;
+import com.explore.backend.dto.PaginatedDeviceResponse;
 import com.explore.backend.mapper.DeviceMapper;
 import com.explore.backend.model.Device;
 import com.explore.backend.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,17 +20,29 @@ import java.util.stream.Collectors;
 @Service
 public class DeviceService {
 
+    private static final int PAGE_SIZE = 10;
+
     @Autowired
     private DeviceRepository deviceRepository;
 
     @Autowired
     private DeviceMapper deviceMapper;
 
-    public List<DeviceResponseDTO> getAllDevices() {
-        return deviceRepository.findAll()
-                .stream()
-                .map(deviceMapper::toDTO)
-                .collect(Collectors.toList());
+    public PaginatedDeviceResponse getAllDevices(int page) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by(Sort.Direction.ASC, "id"));
+        Page<Device> devicePage = deviceRepository.findAll(pageable);
+        
+        List<DeviceResponseDTO> devices = devicePage.getContent()
+            .stream()
+            .map(deviceMapper::toDTO)
+            .collect(Collectors.toList());
+            
+        return new PaginatedDeviceResponse(
+            devices,
+            devicePage.getNumber(),
+            devicePage.getTotalPages(),
+            devicePage.getTotalElements()
+        );
     }
 
     public Optional<DeviceResponseDTO> getDeviceById(String id) {
