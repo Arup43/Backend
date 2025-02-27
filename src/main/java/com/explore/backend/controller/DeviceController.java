@@ -9,6 +9,7 @@ import com.explore.backend.dto.patch.DeviceCommentPatchDTO;
 import com.explore.backend.dto.patch.DeviceSharePatchDTO;
 import com.explore.backend.dto.patch.DeviceStreamPatchDTO;
 import com.explore.backend.dto.PaginatedDeviceResponse;
+import com.explore.backend.dto.DeviceStatsDTO;
 import com.explore.backend.service.DeviceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -257,5 +258,19 @@ public class DeviceController {
         return deviceService.updateDeviceStream(id, patchDTO.getHasStream())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/stats")
+    @Operation(
+        summary = "Get device statistics",
+        description = "Retrieves statistics about devices including counts of various states"
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "Successfully retrieved device statistics",
+        content = @Content(mediaType = "application/json", schema = @Schema(implementation = DeviceStatsDTO.class))
+    )
+    public DeviceStatsDTO getDeviceStats() {
+        return deviceService.getDeviceStats();
     }
 }

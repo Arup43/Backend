@@ -2,6 +2,7 @@ package com.explore.backend.service;
 
 import com.explore.backend.dto.DeviceRequestDTO;
 import com.explore.backend.dto.DeviceResponseDTO;
+import com.explore.backend.dto.DeviceStatsDTO;
 import com.explore.backend.dto.PaginatedDeviceResponse;
 import com.explore.backend.mapper.DeviceMapper;
 import com.explore.backend.model.Device;
@@ -115,5 +116,17 @@ public class DeviceService {
                     device.setHasStream(hasStream);
                     return deviceMapper.toDTO(deviceRepository.save(device));
                 });
+    }
+
+    public DeviceStatsDTO getDeviceStats() {
+        DeviceStatsDTO stats = new DeviceStatsDTO();
+        stats.setTotalActiveDevices(deviceRepository.count());
+        stats.setExecutionOngoing(deviceRepository.countByStatus("active"));
+        stats.setExecutionCompleted(deviceRepository.countByStatus("completed"));
+        stats.setTotalLikes(deviceRepository.countByHasLikeTrue());
+        stats.setTotalComments(deviceRepository.countByHasCommentTrue());
+        stats.setTotalShares(deviceRepository.countByHasShareTrue());
+        stats.setTotalStream(deviceRepository.countByHasStreamTrue());
+        return stats;
     }
 }
