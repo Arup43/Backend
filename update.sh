@@ -1,5 +1,10 @@
 #!/bin/bash
-git pull
+set -e
+
+sudo pkill java || true
+sudo rm -rf /home/ubuntu/Backend/target/
+sudo docker-compose down || true
+
+git pull origin main
 mvn clean package
-docker-compose down
-docker-compose up --build -d
+sudo docker-compose up --build -d
