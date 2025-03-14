@@ -26,12 +26,12 @@ spring:
       algorithm: TLSv1.2
     virtual-host: /
 server:
-  port: 8001 # Standard HTTPS port
-#  ssl:
-#    key-store: classpath:keystore.p12
-#    key-store-password: Hello_World_43
-#    key-store-type: PKCS12
-#    key-alias: tomcat
+  port: 8443  # Standard HTTPS port
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: Hello_World_43
+    key-store-type: PKCS12
+    key-alias: tomcat
 springdoc:
   api-docs:
     path: /api-docs
