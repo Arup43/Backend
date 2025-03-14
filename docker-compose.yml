@@ -3,9 +3,7 @@ services:
   backend:
     build: .
     ports:
-      - "8443:8443"
-    volumes:
-      - ./keystore.p12:/app/keystore.p12
+      - "8081:8081"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://database-1.c3e68syogmez.us-east-1.rds.amazonaws.com:5432/mydb
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -14,6 +12,4 @@ services:
       - SPRING_RABBITMQ_PORT=5671
       - SPRING_RABBITMQ_USERNAME=admin
       - SPRING_RABBITMQ_PASSWORD=Hello_World_43
-      - SERVER_SSL_KEY_STORE=/app/keystore.p12
-      - SERVER_SSL_KEY_STORE_PASSWORD=Hello_World_43
     restart: unless-stopped
