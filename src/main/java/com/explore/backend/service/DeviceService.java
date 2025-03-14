@@ -32,18 +32,17 @@ public class DeviceService {
     public PaginatedDeviceResponse getAllDevices(int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by(Sort.Direction.ASC, "id"));
         Page<Device> devicePage = deviceRepository.findAll(pageable);
-        
+
         List<DeviceResponseDTO> devices = devicePage.getContent()
-            .stream()
-            .map(deviceMapper::toDTO)
-            .collect(Collectors.toList());
-            
+                .stream()
+                .map(deviceMapper::toDTO)
+                .collect(Collectors.toList());
+
         return new PaginatedDeviceResponse(
-            devices,
-            devicePage.getNumber(),
-            devicePage.getTotalPages(),
-            devicePage.getTotalElements()
-        );
+                devices,
+                devicePage.getNumber(),
+                devicePage.getTotalPages(),
+                devicePage.getTotalElements());
     }
 
     public Optional<DeviceResponseDTO> getDeviceById(String id) {
@@ -128,5 +127,21 @@ public class DeviceService {
         stats.setTotalShares(deviceRepository.countByHasShareTrue());
         stats.setTotalStream(deviceRepository.countByHasStreamTrue());
         return stats;
+    }
+
+    public int resetAllDevices() {
+        List<Device> allDevices = deviceRepository.findAll();
+
+        for (Device device : allDevices) {
+            device.setStatus("idle");
+            device.setIsActive(true);
+            device.setHasLike(false);
+            device.setHasComment(false);
+            device.setHasShare(false);
+            device.setHasStream(false);
+        }
+
+        deviceRepository.saveAll(allDevices);
+        return allDevices.size();
     }
 }

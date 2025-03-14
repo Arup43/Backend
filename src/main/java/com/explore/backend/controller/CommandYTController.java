@@ -13,25 +13,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/commands")
+@RequestMapping("/api/commands/yt")
 @Tag(name = "Command", description = "Command processing APIs")
-public class CommandController {
-
+public class CommandYTController {
     @Autowired
     private CommandService commandService;
 
     @Operation(
-        summary = "Process command",
-        description = "Processes a command by calling external AI service"
+            summary = "Process command",
+            description = "Processes a command by calling external AI service"
     )
     @ApiResponse(
-        responseCode = "200",
-        description = "Command processed successfully",
-        content = @Content(mediaType = "application/json", 
-                         schema = @Schema(implementation = CommandResponseDTO.class))
+            responseCode = "200",
+            description = "Command processed successfully",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = CommandResponseDTO.class))
     )
     @PostMapping
     public ResponseEntity<Boolean> processCommand(@RequestBody CommandYTDto command) {
+        System.out.println("Getting request......");
         boolean result = commandService.processCommand(command);
         return ResponseEntity.ok(result);
     }

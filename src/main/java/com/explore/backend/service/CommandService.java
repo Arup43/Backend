@@ -1,8 +1,8 @@
 package com.explore.backend.service;
 
 import com.explore.backend.config.RabbitMQConfig;
-import com.explore.backend.dto.CommandDTO;
 import com.explore.backend.dto.CommandResponseDTO;
+import com.explore.backend.dto.CommandYTDto;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,11 +24,12 @@ public class CommandService {
     @Value("${ai-service.url}")
     private String aiServiceUrl;
     
-    public boolean processCommand(CommandDTO command) {
+    public boolean processCommand(CommandYTDto command) {
+        System.out.println("Going to service...");
         try {
             // Call external AI service
             ResponseEntity<CommandResponseDTO[]> response = restTemplate.postForEntity(
-                aiServiceUrl + "/generate-reactions",
+                aiServiceUrl + "/generate-youtube-reactions",
                 command,
                 CommandResponseDTO[].class
             );
@@ -45,6 +46,7 @@ public class CommandService {
             
         } catch (Exception e) {
             // Log the error here
+            System.out.println(e.getMessage());
             return false;
         }
     }

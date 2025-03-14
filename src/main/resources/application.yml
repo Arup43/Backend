@@ -14,7 +14,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true  # Set to 'false' to hide SQL in logs (optional)
+    show-sql: false  # Set to 'false' to hide SQL in logs (optional)
     format-sql: true  # Optional: formats the SQL in logs (for readability)
   rabbitmq:
     host: b-22d8426a-5c46-4f06-a0be-fbe75bfb34e8.mq.us-east-1.amazonaws.com
