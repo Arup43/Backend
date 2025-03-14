@@ -14,39 +14,50 @@ import java.util.Arrays;
 
 @Service
 public class CommandService {
-    
+
     @Autowired
     private RestTemplate restTemplate;
-    
+
     @Autowired
     private RabbitTemplate rabbitTemplate;
-    
+
     @Value("${ai-service.url}")
     private String aiServiceUrl;
-    
+
     public boolean processCommand(CommandYTDto command) {
         System.out.println("Going to service...");
         try {
-            // Call external AI service
-            ResponseEntity<CommandResponseDTO[]> response = restTemplate.postForEntity(
-                aiServiceUrl + "/generate-youtube-reactions",
-                command,
-                CommandResponseDTO[].class
-            );
-            
-            // Publish each command response to RabbitMQ queue
-            CommandResponseDTO[] commandResponses = response.getBody();
-            if (commandResponses != null) {
-                for (CommandResponseDTO commandResponse : commandResponses) {
-                    rabbitTemplate.convertAndSend(RabbitMQConfig.COMMAND_QUEUE, commandResponse);
+            // Start a new thread to handle the AI service call asynchronously
+            new Thread(() -> {
+                try {
+                    // Call external AI service
+                    ResponseEntity<CommandResponseDTO[]> response = restTemplate.postForEntity(
+                            aiServiceUrl + "/generate-youtube-reactions",
+                            command,
+                            CommandResponseDTO[].class);
+
+                    // Publish each command response to RabbitMQ queue
+                    CommandResponseDTO[] commandResponses = response.getBody();
+                    if (commandResponses != null) {
+                        for (CommandResponseDTO commandResponse : commandResponses) {
+                            rabbitTemplate.convertAndSend(RabbitMQConfig.COMMAND_QUEUE, commandResponse);
+                        }
+                        System.out.println("Successfully processed AI service response and sent to RabbitMQ");
+                    } else {
+                        System.out.println("Received null response from AI service");
+                    }
+                } catch (Exception e) {
+                    // Log the error here
+                    System.out.println("Error in async processing: " + e.getMessage());
                 }
-                return true;
-            }
-            return false;
-            
+            }).start();
+
+            // Return true immediately after initiating the request
+            return true;
+
         } catch (Exception e) {
-            // Log the error here
-            System.out.println(e.getMessage());
+            // This will only catch errors in starting the thread
+            System.out.println("Error initiating request: " + e.getMessage());
             return false;
         }
     }
