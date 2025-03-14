@@ -16,7 +16,8 @@ public class CorsConfig {
                 registry.addMapping("/api/**")
                     .allowedOrigins(
                         "http://localhost:3000",
-                        "https://frontend-control.vercel.app"
+                        "https://frontend-control.vercel.app",
+                        "https://automation-yt.netlify.app"
                     )
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                     .allowedHeaders("*")
