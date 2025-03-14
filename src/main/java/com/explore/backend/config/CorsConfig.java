@@ -17,7 +17,8 @@ public class CorsConfig {
                     .allowedOrigins(
                         "http://localhost:3000",
                         "https://frontend-control.vercel.app",
-                        "https://automation-yt.netlify.app"
+                        "https://automation-yt.netlify.app",
+                            "https://ap45j57g0d.execute-api.us-east-1.amazonaws.com"
                     )
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                     .allowedHeaders("*")
