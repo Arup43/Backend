@@ -9,6 +9,6 @@ public class DeviceStatsDTO {
     private long executionCompleted;
     private long totalLikes;
     private long totalComments;
-    private long totalShares;
-    private long totalStream;
+    private long totalSubscribes;
+    private long totalStreams;
 }

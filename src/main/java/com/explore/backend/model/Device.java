@@ -26,8 +26,8 @@ public class Device {
     @Column(name = "has_comment")
     private Boolean hasComment;
 
-    @Column(name = "has_share")
-    private Boolean hasShare;
+    @Column(name = "has_subscribe")
+    private Boolean hasSubscribe;
 
     @Column(name = "has_stream")
     private Boolean hasStream;

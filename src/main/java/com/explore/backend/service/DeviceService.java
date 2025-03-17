@@ -101,12 +101,13 @@ public class DeviceService {
                 });
     }
 
-    public Optional<DeviceResponseDTO> updateDeviceShare(String id, Boolean hasShare) {
-        return deviceRepository.findById(id)
-                .map(device -> {
-                    device.setHasShare(hasShare);
-                    return deviceMapper.toDTO(deviceRepository.save(device));
-                });
+    public Optional<DeviceResponseDTO> updateDeviceSubscribe(String id, Boolean hasSubscribe) {
+        Device device = deviceRepository.findById(id).orElse(null);
+        if (device != null) {
+            device.setHasSubscribe(hasSubscribe);
+            return Optional.of(deviceMapper.toDTO(deviceRepository.save(device)));
+        }
+        return Optional.empty();
     }
 
     public Optional<DeviceResponseDTO> updateDeviceStream(String id, Boolean hasStream) {
@@ -124,8 +125,8 @@ public class DeviceService {
         stats.setExecutionCompleted(deviceRepository.countByStatus("completed"));
         stats.setTotalLikes(deviceRepository.countByHasLikeTrue());
         stats.setTotalComments(deviceRepository.countByHasCommentTrue());
-        stats.setTotalShares(deviceRepository.countByHasShareTrue());
-        stats.setTotalStream(deviceRepository.countByHasStreamTrue());
+        stats.setTotalSubscribes(deviceRepository.countByHasSubscribeTrue());
+        stats.setTotalStreams(deviceRepository.countByHasStreamTrue());
         return stats;
     }
 
@@ -137,7 +138,7 @@ public class DeviceService {
             device.setIsActive(true);
             device.setHasLike(false);
             device.setHasComment(false);
-            device.setHasShare(false);
+            device.setHasSubscribe(false);
             device.setHasStream(false);
         }
 

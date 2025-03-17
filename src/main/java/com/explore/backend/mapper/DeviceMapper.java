@@ -7,18 +7,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DeviceMapper {
-    
+
     public Device toEntity(DeviceRequestDTO dto) {
         Device device = new Device();
         device.setStatus(dto.getStatus());
         device.setIsActive(dto.getIsActive());
         device.setHasLike(dto.getHasLike());
         device.setHasComment(dto.getHasComment());
-        device.setHasShare(dto.getHasShare());
+        device.setHasSubscribe(dto.getHasSubscribe());
         device.setHasStream(dto.getHasStream());
         return device;
     }
-    
+
     public DeviceResponseDTO toDTO(Device device) {
         DeviceResponseDTO dto = new DeviceResponseDTO();
         dto.setId(device.getId());
@@ -26,7 +26,7 @@ public class DeviceMapper {
         dto.setIsActive(device.getIsActive());
         dto.setHasLike(device.getHasLike());
         dto.setHasComment(device.getHasComment());
-        dto.setHasShare(device.getHasShare());
+        dto.setHasSubscribe(device.getHasSubscribe());
         dto.setHasStream(device.getHasStream());
         return dto;
     }
@@ -36,7 +36,7 @@ public class DeviceMapper {
         device.setIsActive(dto.getIsActive());
         device.setHasLike(dto.getHasLike());
         device.setHasComment(dto.getHasComment());
-        device.setHasShare(dto.getHasShare());
+        device.setHasSubscribe(dto.getHasSubscribe());
         device.setHasStream(dto.getHasStream());
     }
 }

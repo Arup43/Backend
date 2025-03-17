@@ -9,6 +9,6 @@ public class DeviceResponseDTO {
     private Boolean isActive;
     private Boolean hasLike;
     private Boolean hasComment;
-    private Boolean hasShare;
+    private Boolean hasSubscribe;
     private Boolean hasStream;
 }

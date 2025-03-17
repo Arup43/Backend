@@ -6,7 +6,7 @@ import com.explore.backend.dto.patch.DeviceStatusPatchDTO;
 import com.explore.backend.dto.patch.DeviceActivePatchDTO;
 import com.explore.backend.dto.patch.DeviceLikePatchDTO;
 import com.explore.backend.dto.patch.DeviceCommentPatchDTO;
-import com.explore.backend.dto.patch.DeviceSharePatchDTO;
+import com.explore.backend.dto.patch.DeviceSubscribePatchDTO;
 import com.explore.backend.dto.patch.DeviceStreamPatchDTO;
 import com.explore.backend.dto.PaginatedDeviceResponse;
 import com.explore.backend.dto.DeviceStatsDTO;
@@ -61,7 +61,7 @@ public class DeviceController {
         defaultDeviceDTO.setIsActive(true);
         defaultDeviceDTO.setHasLike(false);
         defaultDeviceDTO.setHasComment(false);
-        defaultDeviceDTO.setHasShare(false);
+        defaultDeviceDTO.setHasSubscribe(false);
         defaultDeviceDTO.setHasStream(false);
 
         return deviceService.createDevice(defaultDeviceDTO).getId();
@@ -141,14 +141,14 @@ public class DeviceController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Update device share status", description = "Updates only the share status of an existing device")
-    @ApiResponse(responseCode = "200", description = "Device share status updated successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DeviceResponseDTO.class)))
+    @Operation(summary = "Update device subscribe status", description = "Updates only the subscribe status of an existing device")
+    @ApiResponse(responseCode = "200", description = "Device subscribe status updated successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DeviceResponseDTO.class)))
     @ApiResponse(responseCode = "404", description = "Device not found")
-    @PatchMapping("/{id}/share")
-    public ResponseEntity<DeviceResponseDTO> updateDeviceShare(
+    @PatchMapping("/{id}/subscribe")
+    public ResponseEntity<DeviceResponseDTO> updateDeviceSubscribe(
             @Parameter(description = "ID of the device") @PathVariable String id,
-            @RequestBody DeviceSharePatchDTO patchDTO) {
-        return deviceService.updateDeviceShare(id, patchDTO.getHasShare())
+            @RequestBody DeviceSubscribePatchDTO patchDTO) {
+        return deviceService.updateDeviceSubscribe(id, patchDTO.getHasSubscribe())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
