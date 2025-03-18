@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import org.springframework.amqp.core.AcknowledgeMode;
 
 @Configuration
 public class RabbitMQConfig {
@@ -27,11 +28,13 @@ public class RabbitMQConfig {
     @Value("${spring.rabbitmq.password}")
     private String password;
 
-    public static final String COMMAND_QUEUE = "command_queue";
+    public static final String COMMAND_QUEUE = "command_queue_final";
 
     @Bean
     public Queue commandQueue() {
         return QueueBuilder.durable(COMMAND_QUEUE)
+                .withArgument("x-message-ttl", 60000)
+                .withArgument("x-consumer-auto-ack", true)
                 .build();
     }
 
@@ -56,10 +59,12 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, 
-                                       Jackson2JsonMessageConverter messageConverter) {
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory,
+            Jackson2JsonMessageConverter messageConverter) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setMessageConverter(messageConverter);
+        // For auto-acknowledgment behavior
+        template.setMandatory(false);
         return template;
     }
 }
