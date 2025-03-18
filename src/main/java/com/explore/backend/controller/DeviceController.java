@@ -57,7 +57,7 @@ public class DeviceController {
     public String createDevice() {
         // Create a default DeviceRequestDTO with specified values
         DeviceRequestDTO defaultDeviceDTO = new DeviceRequestDTO();
-        defaultDeviceDTO.setStatus("active");
+        defaultDeviceDTO.setStatus("idle");
         defaultDeviceDTO.setIsActive(true);
         defaultDeviceDTO.setHasLike(false);
         defaultDeviceDTO.setHasComment(false);

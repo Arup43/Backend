@@ -121,7 +121,7 @@ public class DeviceService {
     public DeviceStatsDTO getDeviceStats() {
         DeviceStatsDTO stats = new DeviceStatsDTO();
         stats.setTotalActiveDevices(deviceRepository.count());
-        stats.setExecutionOngoing(deviceRepository.countByStatus("active"));
+        stats.setExecutionOngoing(deviceRepository.countByStatus("processing"));
         stats.setExecutionCompleted(deviceRepository.countByStatus("completed"));
         stats.setTotalLikes(deviceRepository.countByHasLikeTrue());
         stats.setTotalComments(deviceRepository.countByHasCommentTrue());
